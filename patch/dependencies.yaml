@@ -49,6 +49,12 @@ easynav_bonxai_maps_manager:
 navmap_ros:
   # Same Eigen-via-PCL contamination issue as easynav_bonxai_maps_manager.
   add_host: ["eigen-abi-devel"]
+easynav_octomap_maps_manager:
+  # "octomap" isn't auto-resolved from rosdep for this package (same gap as
+  # octomap_ros/grid_map_octomap/geometric_shapes below); without it CMake
+  # fails to find octomapConfig.cmake.
+  add_host: ["octomap"]
+  add_run: ["octomap"]
 rviz_rendering:
   add_host: ["glew"]
 behaviortree_cpp:
