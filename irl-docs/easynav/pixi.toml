@@ -1,0 +1,111 @@
+[workspace]
+name = "easynav_plugins_ws"
+channels = ["file:///home/fmrico/pixi/own-buildfarms/ros-lyrical/output", "https://prefix.dev/irl-lyrical", "https://prefix.dev/robostack-lyrical", "https://prefix.dev/conda-forge"]
+platforms = ["linux-64"]
+
+
+[dependencies]
+# Base ROS dependencies
+ros-lyrical-ros-base = "*"
+pkg-config = "*"
+compilers = "*"
+make = "*"
+ninja = "*"
+ros-lyrical-ros2cli = "*"
+
+# CLI autocompletion for `ros2` (argcomplete)
+argcomplete = "*"
+
+# Runtime deps for easynav_tools TUI
+rich = "*"
+platformdirs = "*"
+typing_extensions = "*"
+pydantic = "*"
+
+# PCL (and several ROS packages) still expect Eigen3 (3.x) config semantics.
+# Pin the Eigen ABI package to avoid CMake falling back to system Eigen (/usr/include/eigen3).
+eigen-abi-devel = "*"
+
+# Prefer Zenoh middleware
+ros-lyrical-rmw-zenoh-cpp = "*"
+
+# Build tools
+colcon-common-extensions = "*"
+cmake = "<4"
+
+# Workspace dependencies
+ros-lyrical-ament-cmake = "*"
+ros-lyrical-ament-lint-auto = "*"
+ros-lyrical-ament-lint-common = "*"
+ros-lyrical-controller-manager = "*"
+ros-lyrical-gz-plugin-vendor = "*"
+ros-lyrical-gz-ros2-control-demos = "*"
+ros-lyrical-gz-sim-vendor = "*"
+ros-lyrical-joint-state-publisher = "*"
+ros-lyrical-joint-state-publisher-gui = "*"
+ros-lyrical-joy = "*"
+ros-lyrical-rclcpp = "*"
+ros-lyrical-robot-state-publisher = "*"
+ros-lyrical-ros-gz = "*"
+ros-lyrical-ros-gz-bridge = "*"
+ros-lyrical-ros-gz-image = "*"
+ros-lyrical-ros-gz-sim = "*"
+ros-lyrical-rviz2 = "*"
+ros-lyrical-teleop-twist-joy = "*"
+ros-lyrical-teleop-twist-keyboard = "*"
+ros-lyrical-twist-stamper = "*"
+ros-lyrical-twist-mux = "*"
+ros-lyrical-urdf = "*"
+ros-lyrical-urdfdom = "*"
+ros-lyrical-xacro = "*"
+
+# Locally-built EasyNav + NavMap artifacts (from file:///.../ros-lyrical/output)
+ros-lyrical-easynav = "*"
+ros-lyrical-easynav-bonxai-maps-manager = "*"
+ros-lyrical-easynav-common = "*"
+ros-lyrical-easynav-controller = "*"
+ros-lyrical-easynav-core = "*"
+ros-lyrical-easynav-costmap-common = "*"
+ros-lyrical-easynav-costmap-maps-manager = "*"
+ros-lyrical-easynav-costmap-localizer = "*"
+ros-lyrical-easynav-costmap-planner = "*"
+ros-lyrical-easynav-fusion-localizer = "*"
+ros-lyrical-easynav-gps-localizer = "*"
+ros-lyrical-easynav-interfaces = "*"
+ros-lyrical-easynav-localizer = "*"
+ros-lyrical-easynav-maps-manager = "*"
+ros-lyrical-easynav-mpc-controller = "*"
+ros-lyrical-easynav-mppi-controller = "*"
+ros-lyrical-easynav-navmap-localizer = "*"
+ros-lyrical-easynav-navmap-maps-manager = "*"
+ros-lyrical-easynav-navmap-planner = "*"
+ros-lyrical-easynav-octomap-maps-manager = "*"
+ros-lyrical-easynav-planner = "*"
+ros-lyrical-easynav-regulated-pp-controller = "*"
+ros-lyrical-easynav-routes-maps-manager = "*"
+ros-lyrical-easynav-sensors = "*"
+ros-lyrical-easynav-serest-controller = "*"
+ros-lyrical-easynav-simple-common = "*"
+ros-lyrical-easynav-simple-controller = "*"
+ros-lyrical-easynav-simple-localizer = "*"
+ros-lyrical-easynav-simple-maps-manager = "*"
+ros-lyrical-easynav-simple-planner = "*"
+ros-lyrical-easynav-support-py = "*"
+ros-lyrical-easynav-system = "*"
+ros-lyrical-easynav-tools = "*"
+ros-lyrical-easynav-vff-controller = "*"
+ros-lyrical-navmap-core = "*"
+ros-lyrical-navmap-ros = "*"
+ros-lyrical-navmap-ros-interfaces = "*"
+ros-lyrical-yaets = "*"
+
+
+[tasks]
+build = {cmd = "bash -lc 'colcon build --cmake-args -DEigen3_DIR=\"$CONDA_PREFIX/share/eigen3/cmake\"'", description = "Build the ROS workspace"}
+test = {cmd = "bash -lc 'colcon test && colcon test-result --verbose'", description = "Run tests for the workspace"}
+clean = {cmd = "rm -rf build install log", description = "Clean build artifacts (build, install, log directories)"}
+
+# Scripts to source on environment activation, found after first colcon build.
+
+[activation]
+scripts = ["activate.sh"]
